@@ -152,6 +152,7 @@ public class BigInteger
     public BigInteger subtract(BigInteger big)
     {
         // 음수의 뺄셈 -> add로 처리
+        // result = result.delZero();
     }
   
     public BigInteger multiply(BigInteger big)
@@ -160,6 +161,8 @@ public class BigInteger
         // arg1 * arg2의 첫째자리 + arg1 * arg2의 둘째자리 * 10 + arg1 * arg2의 셋째자리 * 100 + ...
             // arg1 * arg2의 둘째자리 * 10 -> 미리 끝자리는 0으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 1
             // arg1 * arg2의 셋째자리 * 100 -> 미리 끝자리는 00으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 2
+
+        // result = result.delZero();
     }
 */
 
