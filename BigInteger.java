@@ -177,7 +177,7 @@ public class BigInteger
         // overflow 감지 어떻게 하는지??
 
         // 필요 없는 array는 제거해줘야 함.
-
+        // 곱셈에서 add로 넘어온 경우 매번마다 delZero 해주는 게 과연 효율적인지는 생각해봐야... -> eval 메서드로 보내는 게 낫지 않을까
         result = result.delZero();
 
         return result;
@@ -301,6 +301,9 @@ public class BigInteger
         // BigInteger num2 = new BigInteger(arg2);
         // BigInteger result = num1.add(num2);
         // return result;
+        
+        // result = result.delZero();
+
         return result;
     }
   
