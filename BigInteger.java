@@ -44,7 +44,7 @@ public class BigInteger
             this.numArray[i] = Integer.parseInt(inputVal.substring(i, i+1));
         }
 
-        System.out.printf("BingInteger.__init__ %s %s %d\n", this.sign, Arrays.toString(this.numArray), this.length);
+        // System.out.printf("BingInteger.__init__ %s %s %d\n", this.sign, Arrays.toString(this.numArray), this.length);
         
     }
 
