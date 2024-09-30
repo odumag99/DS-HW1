@@ -101,15 +101,15 @@ public class BigInteger
 
             int carry = 0;
             int arg1Digit, arg2Digit;
-            for (int curPlace = 0; curPlace < result.length; curPlace++){ // curPlace : 끝에서 i(0~)번째 자리수
+            for (int curPlace = 0; curPlace < result.length; curPlace++){ // curPlace : 끝에서 i(0~)번째 자리
                 try {
-                    arg1Digit = this.numArray[this.length-1-curPlace];
+                    arg1Digit = this.numArray[this.length-1-curPlace]; // arg1Digit: 끝에서 i(0~)번째 자리수
                 } catch (ArrayIndexOutOfBoundsException e) {
                     arg1Digit = 0;
                 }
 
                 try {
-                    arg2Digit = arg2.numArray[arg2.length-1-curPlace];
+                    arg2Digit = arg2.numArray[arg2.length-1-curPlace]; // arg2Digit: 끝에서 i(0~)번째 자리수
                 } catch (ArrayIndexOutOfBoundsException e) {
                     arg2Digit = 0;
                 }
