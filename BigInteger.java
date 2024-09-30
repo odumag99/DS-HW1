@@ -116,10 +116,8 @@ public class BigInteger
 
 
                 int curDigit = carry + arg1Digit + arg2Digit;
-                if (curDigit >= 10){
-                    carry = curDigit / 10;
-                    curDigit = curDigit % 10;
-                }
+                carry = curDigit / 10;
+                curDigit = curDigit % 10;
                 result.numArray[result.length-1-curPlace] = curDigit;
             }
         }
