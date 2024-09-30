@@ -158,6 +158,7 @@ public class BigInteger
     public BigInteger multiply(BigInteger big)
     {
         // 필요없는 array는 제거해 줘야 함
+        // arg1 * arg2의 첫째자리 + arg1 * arg2의 둘째자리 * 10 + arg1 * arg2의 셋째자리 * 100 + ...
     }
 */
 
