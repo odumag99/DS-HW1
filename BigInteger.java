@@ -110,7 +110,7 @@ public class BigInteger
                 }
 
                 try {
-                    arg2Digit = arg2.numArray[this.length-1-curPlace];
+                    arg2Digit = arg2.numArray[arg2.length-1-curPlace];
                 } catch (ArrayIndexOutOfBoundsException e) {
                     arg2Digit = 0;
                 }
