@@ -49,29 +49,29 @@ public class BigInteger
     }
 
 
-    public BigInteger clarify(){
+    public BigInteger delZero(){
         BigInteger result = new BigInteger("0", "0");
         // 앞에 있는 0을 제거해주는 메서드
         // 첫 번째로 유효숫자가 나올 때부터 result의 array 초기화하고 복제 시작한다
         // boolean validDigit = false;
         int firstValidDigit = -1; // this에서 처음으로 유효숫자 나오는 index(0~)
-        int[] newNumArray = new int[0];
 
         // 0123; i=1,  newNumArray[3] 
         for (int i=0; i<this.length; i++){
             if (firstValidDigit < 0){
                 if (this.numArray[i] > 0) {
+                    result = new BigInteger(this.sign, this.length-i);
                     firstValidDigit = i;
-                    newNumArray = new int[this.length-i];
                 }
+            }
+            
             if (firstValidDigit >= 0){
-                newNumArray[i-firstValidDigit] = this.numArray[i];
+                result.numArray[i-firstValidDigit] = this.numArray[i];
             }
 
             }
-        }
 
-        // 모두 0인 경우 -> 초기에 초기화된 result 그대로 반환
+        // 모두 0인 경우 -> 초기에 초기화된 result("0", "0") 그대로 반환
 
         return result;
     }
@@ -147,7 +147,7 @@ public class BigInteger
 
         // 필요 없는 array는 제거해줘야 함.
 
-        // result = result.clarify();
+        result = result.delZero();
 
         return result;
     }
