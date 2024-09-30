@@ -75,6 +75,33 @@ public class BigInteger
         return result;
     }
 
+    public int compareTo(BigInteger arg2) {
+        // this가 크면 1, 같으면 0, 작으면 -1 반환하는 메서드
+        // this와 arg2 모두 delZero 된 상태로 가정
+
+        int result = 0;
+
+        if (this.length > arg2.length) {
+            result = 1;
+        } else if (this.length < arg2.length) {
+            result = -1;
+        } else { // 자리수 같은 경우 가장 큰 자리수부터 비교 
+            for (int i=0; i < this.length; i++){
+                if (this.numArray[i] > arg2.numArray[i]){ // this가 더 큰 자리 발견하면
+                    result = 1;
+                    break;
+                } else if (this.numArray[i] < arg2.numArray[i]){
+                    result = 01;
+                    break;
+                } else { // 계속 같으면 -> this와 arg2 같다.
+                    continue;
+                }
+            }
+        }
+
+        return result;
+    }
+
     public BigInteger add(BigInteger arg2)
     {
         BigInteger result = new BigInteger("0", "0");
@@ -122,11 +149,19 @@ public class BigInteger
         }
 
         // 양음 or 음양인 경우
+        else {
             // 대소비교
-                // 같은 경우 -> 부호 0, 값도 0 처리
+            int thisCompareTo = this.compareTo(arg2);
+            System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
+            if (thisCompareTo > 1) { // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
+                
+            }
+            // this와 arg2 같은 경우
+            // this가 더 작은 경우
                 // 다른 경우 -> 절대값 더 큰 게 부호가 된다.
                     // 절대값 차이 계산
             //
+        }
 
         // 둘 중 하나가 0, 둘 모두 0
         // 실제로 컴퓨터가 어떻게 연산하는가?
