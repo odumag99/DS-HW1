@@ -176,7 +176,7 @@ public class BigInteger
         } else { // 0이 아닌 경우
             if (this.sign.equals("-")){ // 음수인 경우 -> 앞에 - 붙여줘고 양수 표현에 합류
             result += "-";
-            // 출력하되 앞에 있는 앞에 나오는 0은 제외해야 함
+            // 출력하되 앞에 있는 앞에 나오는 0은 제외해야 함 -> 각 연산자
             // 단 숫자 자체가 0인 경우 제외 <- this 모든 array 다 돌아도 validDigit이 false인 경우
             }
             
