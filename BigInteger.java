@@ -69,7 +69,7 @@ public class BigInteger
                 result.numArray[i-firstValidDigit] = this.numArray[i];
             }
 
-            }
+        }
 
         // 모두 0인 경우 -> 초기에 초기화된 result("0", "0") 그대로 반환
 
@@ -87,8 +87,7 @@ public class BigInteger
                 result = new BigInteger("0", "0");
             }
             // arg2는 0이 아닌 경우
-            else { result = arg2;
-            }
+            else { result = arg2; }
         } 
         // this는 0이 아니고, arg2만 0인 경우
         else if (arg2.sign.equals("0")){
