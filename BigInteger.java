@@ -102,6 +102,12 @@ public class BigInteger
         return result;
     }
 
+    public int[] absSub(BigInteger arg2){
+        int[] result = new int[this.length];
+        
+        return result;
+    }
+    
     public BigInteger add(BigInteger arg2)
     {
         BigInteger result = new BigInteger("0", "0");
