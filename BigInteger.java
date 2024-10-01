@@ -127,6 +127,7 @@ public class BigInteger
         }
         
         // 양양 or 음음
+        // 나중에 기회되면 absAdd 메서드로 빼버리기
         else if (this.sign.equals(arg2.sign)){
             int max_length = Math.max(this.length, arg2.length);
             result = new BigInteger(this.sign, max_length+1);
