@@ -76,7 +76,7 @@ public class BigInteger
     }
 
     public int compareTo(BigInteger arg2) {
-        // this가 크면 1, 같으면 0, 작으면 -1 반환하는 메서드
+        // this의 절대값이 크면 1, 같으면 0, 작으면 -1 반환하는 메서드
         // this와 arg2 모두 delZero 된 상태로 가정
 
         int result = 0;
@@ -150,11 +150,12 @@ public class BigInteger
 
         // 양음 or 음양인 경우
         else {
-            // 대소비교
+            // 절대값 대소비교
             int thisCompareTo = this.compareTo(arg2);
             System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
-            if (thisCompareTo > 1) { // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
-                
+            if (thisCompareTo == 1) { // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
+                result.sign = this.sign;
+                // result.numArray = this.absSub(arg2);
             }
             // this와 arg2 같은 경우
             // this가 더 작은 경우
