@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Arrays; // 디버그용 import -> 완성되면 지워도 됨.
   
   
 public class BigInteger
@@ -14,7 +15,6 @@ public class BigInteger
 
     String sign = "0";
     int[] numArray;
-    int length;
   
   
 /*
@@ -30,14 +30,12 @@ public class BigInteger
     {
         this.sign = inputSign;
         this.numArray = new int[length];
-        this.length = length;
     }
 
     public BigInteger(String inputSign, String inputVal)
     {
         this.sign = inputSign;
         this.numArray = new int[inputVal.length()];
-        this.length = inputVal.length();
 
         for (int i=0; i<inputVal.length(); i++){
             this.numArray[i] = Integer.parseInt(inputVal.substring(i, i+1));
@@ -47,6 +45,9 @@ public class BigInteger
         
     }
 
+    public int getLength(){
+        return this.numArray.length;
+    }
 
     public BigInteger delZero(){
         BigInteger result = new BigInteger("0", "0");
@@ -56,10 +57,10 @@ public class BigInteger
         int firstValidDigit = -1; // this에서 처음으로 유효숫자 나오는 index(0~)
 
         // 0123; i=1,  newNumArray[3] 
-        for (int i=0; i<this.length; i++){
+        for (int i=0; i<this.getLength(); i++){
             if (firstValidDigit < 0){
                 if (this.numArray[i] > 0) {
-                    result = new BigInteger(this.sign, this.length-i);
+                    result = new BigInteger(this.sign, this.getLength()-i);
                     firstValidDigit = i;
                 }
             }
@@ -81,12 +82,12 @@ public class BigInteger
 
         int result = 0;
 
-        if (this.length > arg2.length) {
+        if (this.getLength() > arg2.getLength()) {
             result = 1;
-        } else if (this.length < arg2.length) {
+        } else if (this.getLength() < arg2.getLength()) {
             result = -1;
         } else { // 자리수 같은 경우 가장 큰 자리수부터 비교 
-            for (int i=0; i < this.length; i++){
+            for (int i=0; i < this.getLength(); i++){
                 if (this.numArray[i] > arg2.numArray[i]){ // this가 더 큰 자리 발견하면
                     result = 1;
                     break;
@@ -103,7 +104,37 @@ public class BigInteger
     }
 
     public int[] absSub(BigInteger arg2){
-        int[] result = new int[this.length];
+        // this의 절대값이 더 크다는 게 보장되어야 함
+        int[] result = new int[this.getLength()];
+
+        int curDigit = 0;
+        int borrow = 0;
+        int arg1Digit, arg2Digit;
+        for (int i=0; i<this.getLength(); i++){ // i는 끝에서부터의 자리 index(0~)
+            try {
+                arg1Digit = this.numArray[this.getLength()-1-i];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.printf("absSub: this.numArray[%d] is out of bound\n", this.getLength()-1-i);
+                arg1Digit = 0;
+            }
+
+            try {
+                arg2Digit = arg2.numArray[arg2.getLength()-1-i];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                arg2Digit = 0;
+            }
+
+            curDigit = arg1Digit - arg2Digit - borrow;
+
+            if (curDigit < 0) {
+                borrow = 1;
+                curDigit += 10;
+            }
+
+            result[this.getLength()-1-i] = curDigit;
+        }
+
+        System.out.printf("absSub: %s\n", Arrays.toString(result));
         
         return result;
     }
@@ -129,20 +160,20 @@ public class BigInteger
         // 양양 or 음음
         // 나중에 기회되면 absAdd 메서드로 빼버리기
         else if (this.sign.equals(arg2.sign)){
-            int max_length = Math.max(this.length, arg2.length);
+            int max_length = Math.max(this.getLength(), arg2.getLength());
             result = new BigInteger(this.sign, max_length+1);
 
             int carry = 0;
             int arg1Digit, arg2Digit;
-            for (int curPlace = 0; curPlace < result.length; curPlace++){ // curPlace : 끝에서 i(0~)번째 자리
+            for (int curPlace = 0; curPlace < result.getLength(); curPlace++){ // curPlace : 끝에서 i(0~)번째 자리
                 try {
-                    arg1Digit = this.numArray[this.length-1-curPlace]; // arg1Digit: 끝에서 i(0~)번째 자리수
+                    arg1Digit = this.numArray[this.getLength()-1-curPlace]; // arg1Digit: 끝에서 i(0~)번째 자리수
                 } catch (ArrayIndexOutOfBoundsException e) {
                     arg1Digit = 0;
                 }
 
                 try {
-                    arg2Digit = arg2.numArray[arg2.length-1-curPlace]; // arg2Digit: 끝에서 i(0~)번째 자리수
+                    arg2Digit = arg2.numArray[arg2.getLength()-1-curPlace]; // arg2Digit: 끝에서 i(0~)번째 자리수
                 } catch (ArrayIndexOutOfBoundsException e) {
                     arg2Digit = 0;
                 }
@@ -151,7 +182,7 @@ public class BigInteger
                 int curDigit = carry + arg1Digit + arg2Digit;
                 carry = curDigit / 10;
                 curDigit = curDigit % 10;
-                result.numArray[result.length-1-curPlace] = curDigit;
+                result.numArray[result.getLength()-1-curPlace] = curDigit;
             }
         }
 
@@ -162,7 +193,7 @@ public class BigInteger
             System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
             if (thisCompareTo == 1) { // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
                 result.sign = this.sign;
-                // result.numArray = this.absSub(arg2);
+                result.numArray = this.absSub(arg2);
             }
             // this와 arg2 같은 경우
             // this가 더 작은 경우
@@ -186,7 +217,10 @@ public class BigInteger
 
         // 필요 없는 array는 제거해줘야 함.
         // 곱셈에서 add로 넘어온 경우 매번마다 delZero 해주는 게 과연 효율적인지는 생각해봐야... -> eval 메서드로 보내는 게 낫지 않을까
+
+        System.out.printf("add before delZero: %s %s\n", result.sign, Arrays.toString(result.numArray));
         result = result.delZero();
+        System.out.printf("add after delZero: %s %s\n", result.sign, Arrays.toString(result.numArray));
 
         return result;
     }
@@ -228,7 +262,7 @@ public class BigInteger
             // 단 숫자 자체가 0인 경우 제외 <- this 모든 array 다 돌아도 validDigit이 false인 경우
             }
             
-            for (int i=0; i<this.length; i++){
+            for (int i=0; i<this.getLength(); i++){
                 result += Integer.toString(this.numArray[i]);
             }
         }
