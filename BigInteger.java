@@ -114,7 +114,7 @@ public class BigInteger
             try {
                 arg1Digit = this.numArray[this.getLength()-1-i];
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.printf("absSub: this.numArray[%d] is out of bound\n", this.getLength()-1-i);
+                // System.out.printf("absSub: this.numArray[%d] is out of bound\n", this.getLength()-1-i);
                 arg1Digit = 0;
             }
 
@@ -136,7 +136,7 @@ public class BigInteger
             result[this.getLength()-1-i] = curDigit;
         }
 
-        System.out.printf("absSub: %s\n", Arrays.toString(result));
+        //System.out.printf("absSub: %s\n", Arrays.toString(result));
         
         return result;
     }
@@ -192,7 +192,7 @@ public class BigInteger
         else {
             // 절대값 대소비교
             int thisCompareTo = this.compareTo(arg2);
-            System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
+            //System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
 
             // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
             if (thisCompareTo == 1) { 
@@ -207,7 +207,7 @@ public class BigInteger
             // this와 arg2 같은 경우 -> 초기화된 result가 그대로
         }
 
-        System.out.printf("add: %s %s\n", result.sign, Arrays.toString(result.numArray));
+        //System.out.printf("add: %s %s\n", result.sign, Arrays.toString(result.numArray));
         return result;
     }
 
@@ -226,7 +226,7 @@ public class BigInteger
             result = this.add(arg2);
         }
 
-        System.out.printf("subtract: %s %s\n", result.sign, Arrays.toString(result.numArray));
+        //System.out.printf("subtract: %s %s\n", result.sign, Arrays.toString(result.numArray));
         return result;
 
     }
@@ -292,7 +292,7 @@ public class BigInteger
             // arg1 * arg2의 셋째자리 * 100 -> 미리 끝자리는 00으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 2
             // arg2 매자리수마다 모든 자리수 도는 건 비효율적 -> shiftAdd 메서드가 필요
 
-        System.out.printf("multiply: %s %s\n", result.sign, Arrays.toString(result.numArray));
+        //System.out.printf("multiply: %s %s\n", result.sign, Arrays.toString(result.numArray));
         return result;
     }
 
@@ -349,7 +349,7 @@ public class BigInteger
             }
 
         } else {
-            System.out.println("Parse Matcher not found.");
+            //System.out.println("Parse Matcher not found.");
         }
 
         return result;
