@@ -129,6 +129,8 @@ public class BigInteger
             if (curDigit < 0) {
                 borrow = 1;
                 curDigit += 10;
+            } else {
+                borrow = 0;
             }
 
             result[this.getLength()-1-i] = curDigit;
