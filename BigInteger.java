@@ -208,10 +208,7 @@ public class BigInteger
         // 필요 없는 array는 제거해줘야 함.
         // 곱셈에서 add로 넘어온 경우 매번마다 delZero 해주는 게 과연 효율적인지는 생각해봐야... -> eval 메서드로 보내는 게 낫지 않을까
 
-        System.out.printf("add before delZero: %s %s\n", result.sign, Arrays.toString(result.numArray));
-        result = result.delZero();
-        System.out.printf("add after delZero: %s %s\n", result.sign, Arrays.toString(result.numArray));
-
+        System.out.printf("add: %s %s\n", result.sign, Arrays.toString(result.numArray));
         return result;
     }
 
@@ -317,6 +314,8 @@ public class BigInteger
             ;
         }
 
+
+        result = result.delZero();
 
         
             // 연산자 추출
