@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Arrays; // 디버그용 import -> 완성되면 지워도 됨.
   
   
 public class BigInteger
@@ -11,7 +10,7 @@ public class BigInteger
     public static final String MSG_INVALID_INPUT = "Wrong Input";
   
     // implement this
-    public static final Pattern EXPRESSION_PATTERN = Pattern.compile(""); // 뭣에 쓰는 물건인고?
+    public static final Pattern EXPRESSION_PATTERN = Pattern.compile("");
 
     String sign = "0";
     int[] numArray;
@@ -53,10 +52,8 @@ public class BigInteger
         BigInteger result = new BigInteger("0", "0");
         // 앞에 있는 0을 제거해주는 메서드
         // 첫 번째로 유효숫자가 나올 때부터 result의 array 초기화하고 복제 시작한다
-        // boolean validDigit = false;
         int firstValidDigit = -1; // this에서 처음으로 유효숫자 나오는 index(0~)
 
-        // 0123; i=1,  newNumArray[3] 
         for (int i=0; i<this.getLength(); i++){
             if (firstValidDigit < 0){
                 if (this.numArray[i] > 0) {
@@ -77,7 +74,7 @@ public class BigInteger
     }
 
     public int compareTo(BigInteger arg2) {
-        // this의 절대값이 크면 1, 같으면 0, 작으면 -1 반환하는 메서드
+        // this의 절대값이 arg2보다 크면 1, 같으면 0, 작으면 -1 반환하는 메서드
         // this와 arg2 모두 delZero 된 상태로 가정
 
         int result = 0;
@@ -104,6 +101,7 @@ public class BigInteger
     }
 
     public int[] absSub(BigInteger arg2){
+        // this에서 arg2의 절대값을 뺀 결과를 반환하는 메서드
         // this의 절대값이 더 크다는 게 보장되어야 함
         int[] result = new int[this.getLength()];
 
@@ -230,8 +228,9 @@ public class BigInteger
         return result;
 
     }
-  
+
     public static int[] mulDigit(int[] arg1, int dig){
+        // arg1의 각 자리수에 dig를 곱한 결과를 반환하는 메서드
         int[] result = new int[arg1.length + 1];
 
         int carry = 0;
@@ -256,7 +255,7 @@ public class BigInteger
             // arg1에 arg2의 끝 i번째 자리를 곱함
             int dig = arg2[arg2.length-1-i];
             curRow = BigInteger.mulDigit(arg1, dig);
-            // 그 결과를 result의 끝에서부터 i(0~)번째 자리에 더함
+            // 그 결과를 result의 끝에서부터 i(0~)번째 자리부터 순서대로 더함
             for (int j = 0; j < curRow.length; j++) {
                 result[result.length - 1 - i - j] += curRow[curRow.length - 1 - j];
                 if (result[result.length - 1 - i - j] >= 10) {
@@ -283,14 +282,6 @@ public class BigInteger
             result.sign = this.sign.equals(arg2.sign) ? "+" : "-";
             result.numArray = BigInteger.absMul(this.numArray, arg2.numArray);
         }
-        // 둘 모두 부호 같은 경우
-
-        // 둘의 부호 다른 경우
-
-        // arg1 * arg2의 첫째자리 + arg1 * arg2의 둘째자리 * 10 + arg1 * arg2의 셋째자리 * 100 + ...
-            // arg1 * arg2의 둘째자리 * 10 -> 미리 끝자리는 0으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 1
-            // arg1 * arg2의 셋째자리 * 100 -> 미리 끝자리는 00으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 2
-            // arg2 매자리수마다 모든 자리수 도는 건 비효율적 -> shiftAdd 메서드가 필요
 
         //System.out.printf("multiply: %s %s\n", result.sign, Arrays.toString(result.numArray));
         return result;
@@ -300,10 +291,8 @@ public class BigInteger
     @Override
     public String toString()
     {
-        // 어디에 쓰이는교?
         // 각 연산 함수에서 이미 쓸 데 없는 앞 자리수는 모두 제거되었다고 가정!
 
-        // 0 여부 판단 -> 부호 붙임 없이 0만 반환해야 함 -> 이건 각 연산 함수 메서드에서 처리하는 걸로...
         String result = "";
 
         if (this.sign.equals("0")){ // 0인 경우
@@ -319,7 +308,7 @@ public class BigInteger
                 result += Integer.toString(this.numArray[i]);
             }
         }
-
+        
         return result;
     }
 
@@ -349,7 +338,7 @@ public class BigInteger
             }
 
         } else {
-            //System.out.println("Parse Matcher not found.");
+            System.out.println("Parse Matcher not found.");
         }
 
         return result;
@@ -368,7 +357,6 @@ public class BigInteger
 
         BigInteger result = new BigInteger("0", "0");
 
-        // 각 연산에서 쓸 데 없이 앞에 붙은 0은 모두 제거시키도록!
 
         if (parsedStrs[2].equals("+")){
             result = arg1.add(arg2);
@@ -380,24 +368,9 @@ public class BigInteger
             result = arg1.multiply(arg2);
         }
 
-
+        // 쓸 데 없이 앞에 붙은 0은 모두 제거시키도록!
         result = result.delZero();
 
-        
-            // 연산자 추출
-                // 그런데 맨 앞에 부호 붙은 것은 안 됨.
-                // 숫자 나오기 전 +- 나오는 경우
-                // 숫자 나오고 난 후 나오는 +-*는 무조건 연산 부호
-                // 그 이후에 +- 나온다면 그것은 sign
-            // num1 num2 양쪽 공백 제거
-        // using regex is allowed
-            // 어디에 써먹을꼬?
-  
-        // One possible implementation
-        // BigInteger num1 = new BigInteger(arg1);
-            // arg1은 String일 것...String을 받아서 BigInteger class로 변환시켜야...
-        // BigInteger num2 = new BigInteger(arg2);
-        // BigInteger result = num1.add(num2);
 
         return result;
     }
