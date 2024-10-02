@@ -212,11 +212,24 @@ public class BigInteger
         return result;
     }
 
-/*
-    public BigInteger subtract(BigInteger big)
+
+    public BigInteger subtract(BigInteger arg2)
     {
-        // 음수의 뺄셈 -> add로 처리
-        // result = result.delZero();
+        BigInteger result;
+
+        // arg2가 0인 경우(이미 arg2는 sign이 "0" 처리 되었다고 가정)
+        if (arg2.sign.equals("0")){
+            result =  this;
+        }
+        // arg2가 0 아닌 경우 -> arg2 부호 반대로 하여 add 처리
+        else {
+            arg2.sign = arg2.sign.equals("+") ? "-" : "+";
+            result = this.add(arg2);
+        }
+
+        System.out.printf("subtract: %s %s\n", result.sign, Arrays.toString(result.numArray));
+        return result;
+
     }
   
     public BigInteger multiply(BigInteger big)
@@ -308,7 +321,7 @@ public class BigInteger
             result = arg1.add(arg2);
         }
         else if (parsedStrs[2].equals("-")){
-            ;
+            result = arg1.subtract(arg2);
         }
         else if (parsedStrs[2].equals("*")){
             ;
