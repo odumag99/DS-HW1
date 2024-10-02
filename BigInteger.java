@@ -234,17 +234,71 @@ public class BigInteger
 
     }
   
-    public BigInteger multiply(BigInteger big)
+    public static int[] mulDigit(int[] arg1, int dig){
+        int[] result = new int[arg1.length + 1];
+
+        int carry = 0;
+        for (int i=0; i<arg1.length; i++){
+            int curDigit = arg1[arg1.length-1-i] * dig + carry;
+            carry = curDigit / 10;
+            curDigit = curDigit % 10;
+            result[result.length-1-i] = curDigit;
+        }
+        result[0] = carry;
+
+        // int가 0이나 1일 경우 좀 더 효율적으로 처리할 여지 있음
+
+        return result;
+    }
+
+    public static int[] absMul(int[] arg1, int[] arg2){
+        int[] result = new int[arg1.length + arg2.length];
+        
+        int[] curRow;
+        for (int i=0; i<arg2.length; i++){ // i: arg2의 끝에서 i(0~)번째 자리
+            // arg1에 arg2의 끝 i번째 자리를 곱함
+            int dig = arg2[arg2.length-1-i];
+            curRow = BigInteger.mulDigit(arg1, dig);
+            // 그 결과를 result의 끝에서부터 i(0~)번째 자리에 더함
+            for (int j = 0; j < curRow.length; j++) {
+                result[result.length - 1 - i - j] += curRow[curRow.length - 1 - j];
+                if (result[result.length - 1 - i - j] >= 10) {
+                    result[result.length - 1 - i - j - 1] += result[result.length - 1 - i - j] / 10;
+                    result[result.length - 1 - i - j] %= 10;
+                }
+            }
+            
+        }
+        return result;
+
+    }
+
+    public BigInteger multiply(BigInteger arg2)
     {
-        // 필요없는 array는 제거해 줘야 함
+        BigInteger result = new BigInteger("0", "0");
+
+        // 둘 중 하나가 0인 경우
+        if (this.sign.equals("0") || arg2.sign.equals("0")){
+            return new BigInteger("0", "0");
+        } 
+        // 0이 아닌 경우 -> result 자리수 초기화. 자리수 <- this 자리수 + arg2 자리수
+        else {
+            result.sign = this.sign.equals(arg2.sign) ? "+" : "-";
+            result.numArray = BigInteger.absMul(this.numArray, arg2.numArray);
+        }
+        // 둘 모두 부호 같은 경우
+
+        // 둘의 부호 다른 경우
+
         // arg1 * arg2의 첫째자리 + arg1 * arg2의 둘째자리 * 10 + arg1 * arg2의 셋째자리 * 100 + ...
             // arg1 * arg2의 둘째자리 * 10 -> 미리 끝자리는 0으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 1
             // arg1 * arg2의 셋째자리 * 100 -> 미리 끝자리는 00으로 비워두고 시작. 새로운 BigInt 자리수는 arg1 자리수 + 1 + 2
             // arg2 매자리수마다 모든 자리수 도는 건 비효율적 -> shiftAdd 메서드가 필요
 
-        // result = result.delZero();
+        System.out.printf("multiply: %s %s\n", result.sign, Arrays.toString(result.numArray));
+        return result;
     }
-*/
+
 
     @Override
     public String toString()
@@ -326,7 +380,7 @@ public class BigInteger
             result = arg1.subtract(arg2);
         }
         else if (parsedStrs[2].equals("*")){
-            ;
+            result = arg1.multiply(arg2);
         }
 
 
