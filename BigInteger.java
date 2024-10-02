@@ -92,7 +92,7 @@ public class BigInteger
                     result = 1;
                     break;
                 } else if (this.numArray[i] < arg2.numArray[i]){
-                    result = 01;
+                    result = -1;
                     break;
                 } else { // 계속 같으면 -> this와 arg2 같다.
                     continue;
