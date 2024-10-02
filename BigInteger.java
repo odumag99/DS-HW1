@@ -191,29 +191,19 @@ public class BigInteger
             // 절대값 대소비교
             int thisCompareTo = this.compareTo(arg2);
             System.out.printf("this.compareTo(arg2): %d\n", thisCompareTo);
-            if (thisCompareTo == 1) { // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
+
+            // this가 더 큰 경우 -> 부호는 this 따라. numArray는 절대값 차이
+            if (thisCompareTo == 1) { 
                 result.sign = this.sign;
                 result.numArray = this.absSub(arg2);
             }
-            // this와 arg2 같은 경우
             // this가 더 작은 경우
-                // 다른 경우 -> 절대값 더 큰 게 부호가 된다.
-                    // 절대값 차이 계산
-            //
+            else if (thisCompareTo == -1) { 
+                result.sign = arg2.sign;
+                result.numArray = arg2.absSub(this);
+            }
+            // this와 arg2 같은 경우 -> 초기화된 result가 그대로
         }
-
-        // 둘 중 하나가 0, 둘 모두 0
-        // 실제로 컴퓨터가 어떻게 연산하는가?
-            // 그냥  char로 모든 수 배열 받고, 초보적인 사칙연산하듯이 하면 되겠다.
-
-
-
-
-            
-            // 비트 연산의 방법 사용?
-            // 7에서 오버플로우 된다고 생각해보자
-            // 음수의 덧셈도 고려
-        // overflow 감지 어떻게 하는지??
 
         // 필요 없는 array는 제거해줘야 함.
         // 곱셈에서 add로 넘어온 경우 매번마다 delZero 해주는 게 과연 효율적인지는 생각해봐야... -> eval 메서드로 보내는 게 낫지 않을까
